@@ -1,0 +1,14 @@
+Explaining the cipher problem
+
+When running the code we get an error within encode and map on line 3 and the block in line 4 with the message
+  "nil can't be coerced into Integer"
+This implies that the problem is in trying to add nil (in line 4).
+This leads to thinking that there is a char which it can't find the index of (i.e. we are missing a character in the cipher)
+so the cipher is returning nil. Looking at the code of cipher we see that ('a'...'z').to_a outputs an array containing the letters
+a to y, excluding z, due to using ... rather than ..
+Changing this, the encode method is debugged.
+
+Comparing lines 4 and 12 we expect these to be opposites in the sense that when we add something we should be taking it away
+to get back to the starting char number. Instead, what we are doing is adding and then taking away our result from what we added initially.
+i.e 1 + 5 then 1 - 6 which doesn't get back to where we started. So we conclude that the subtraction should be the other way around
+i.e char.ord - 65
